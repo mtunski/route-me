@@ -1,32 +1,56 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { compose, withProps } from 'recompose'
 import { connect } from 'react-redux'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
+import { withScriptjs, withGoogleMap, GoogleMap } from 'react-google-maps'
 import { pick } from 'lodash'
+import Guid from 'guid'
+
+import { addLocation } from '../../../actions/locations'
+import Location from './Location'
 
 const mapStateToProps = (state) => ({
   locations: Object.values(state.locations),
 })
 
-const Map = compose(
-  connect(mapStateToProps),
-  withProps({
-    googleMapURL: 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing',
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withScriptjs,
-  withGoogleMap,
-)(props =>
-  <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-  >
-    {props.locations.map(location =>
-      <Marker key={location.id} position={pick(location, 'lat', 'lng')} />
-    )}
-  </GoogleMap>
-)
+const mapDispatchToProps = {
+  addLocation,
+}
 
-export default Map
+@connect(mapStateToProps, mapDispatchToProps)
+@withProps({
+  googleMapURL: 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing',
+  loadingElement: <div style={{ height: `100%` }} />,
+  containerElement: <div style={{ height: `400px` }} />,
+  mapElement: <div style={{ height: `100%` }} />,
+})
+@withScriptjs
+@withGoogleMap
+export default class Map extends PureComponent {
+  handleClick = (ev) => {
+    this.props.addLocation({
+      id: Guid.raw(),
+      lat: ev.latLng.lat(),
+      lng: ev.latLng.lng(),
+    })
+  }
+
+  render = () =>
+    <GoogleMap
+      defaultZoom={8}
+      defaultCenter={{ lat: -34.397, lng: 150.644 }}
+      defaultClickableIcons={false}
+      defaultOptions={{
+        mapTypeControl:false,
+        streetViewControl:false,
+      }}
+      onClick={this.handleClick}
+    >
+      {this.props.locations.map(location =>
+        <Location
+          id={location.id}
+          coordinates={pick(location, 'lat', 'lng')}
+          key={location.id}
+        />
+      )}
+    </GoogleMap>
+}
