@@ -1,15 +1,15 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import MapPage from '../pages/MapPage'
+import App from '../App'
 
 document.addEventListener('DOMContentLoaded', () => {
   const mountNode = document.querySelector('#app')
 
-  render(<MapPage />, mountNode)
+  render(<App />, mountNode)
   if (module.hot) {
-    module.hot.accept('../pages/MapPage', () => {
-      const NextRootComponent = require('../pages/MapPage').default
+    module.hot.accept('../App', () => {
+      const NextRootComponent = require('../App').default
       render(<NextRootComponent />, mountNode)
     })
   }
