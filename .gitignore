@@ -18,3 +18,5 @@
 /public/packs
 /public/packs-test
 /node_modules
+
+Procfile.development
