@@ -1,3 +1,5 @@
+/* global GOOGLE_API_KEY */
+
 import React, { PureComponent } from 'react'
 import { compose, withProps } from 'recompose'
 import { connect } from 'react-redux'
@@ -18,7 +20,7 @@ const mapDispatchToProps = {
 
 @connect(mapStateToProps, mapDispatchToProps)
 @withProps({
-  googleMapURL: 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing',
+  googleMapURL: `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing&key=${GOOGLE_API_KEY}`,
   loadingElement: <div style={{ height: `100%` }} />,
   containerElement: <div style={{ height: `400px` }} />,
   mapElement: <div style={{ height: `100%` }} />,
