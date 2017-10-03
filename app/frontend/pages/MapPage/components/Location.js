@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Marker } from 'react-google-maps'
 import { connect } from 'react-redux'
 
-import { removeLocation } from '../../../actions/locations'
+import { removeLocation } from '../../../redux/actions/locations'
 
 const mapDispatchToProps = {
   removeLocation,

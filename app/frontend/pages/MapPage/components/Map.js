@@ -1,13 +1,13 @@
 /* global GOOGLE_API_KEY */
 
 import React, { PureComponent } from 'react'
-import { compose, withProps } from 'recompose'
+import { withProps } from 'recompose'
 import { connect } from 'react-redux'
 import { withScriptjs, withGoogleMap, GoogleMap } from 'react-google-maps'
 import { pick } from 'lodash'
 import Guid from 'guid'
 
-import { addLocation } from '../../../actions/locations'
+import { addLocation } from '../../../redux/actions/locations'
 import Location from './Location'
 
 const mapStateToProps = (state) => ({

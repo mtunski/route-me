@@ -1,7 +1,9 @@
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
+import thunkMiddleware from "redux-thunk"
 
 import rootReducer from "./rootReducer"
+import apiMiddleware from "../api/middleware"
 
 export default props => {
   const initialState = { ...props }
@@ -9,7 +11,7 @@ export default props => {
   const store = createStore(
     rootReducer,
     initialState,
-    composeWithDevTools()
+    composeWithDevTools(applyMiddleware(thunkMiddleware, apiMiddleware))
   )
 
   if (module.hot) {
