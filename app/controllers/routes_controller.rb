@@ -1,4 +1,4 @@
-class TspController < ApiController
+class RoutesController < ApiController
   respond_to :json
 
   def create
