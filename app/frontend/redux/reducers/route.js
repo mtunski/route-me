@@ -3,7 +3,7 @@ import Immutable from 'seamless-immutable'
 import { isSuccess } from "../../api/utils"
 import { API_CALCULATE_ROUTE } from '../actions/route'
 
-const initialState = Immutable.from({})
+const initialState = null
 
 export default (state = initialState, action) => {
   switch (action.type) {

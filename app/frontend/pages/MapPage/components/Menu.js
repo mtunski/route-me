@@ -5,6 +5,7 @@ import { calculateRoute } from '../../../redux/actions/route'
 
 const mapStateToProps = (state) => ({
   locations: Object.values(state.locations),
+  route: state.route,
 })
 
 const mapDispatchToProps = {
@@ -13,34 +14,51 @@ const mapDispatchToProps = {
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Menu extends PureComponent {
+  componentDidMount() {
+    this.DistanceMatrixService = new google.maps.DistanceMatrixService()
+  }
+
   handleCalculateClick = () => {
     const latLngs = this.props.locations.map(location => new google.maps.LatLng(location.lat, location.lng))
-    new google.maps.DistanceMatrixService().getDistanceMatrix({
-        origins: latLngs,
-        destinations: latLngs,
-        travelMode: 'DRIVING',
-    }, (response, status) => {
-      let durationsMatrix
-      if (status === 'OK') {
-        const matrix = response
-        const matrixOrder = matrix.rows.length
-        durationsMatrix = []
-        matrix.rows.forEach(row =>
-          durationsMatrix.push(
-            row.elements.map(element => {
+
+    if (this.props.locations.length >= 3) {
+      this.DistanceMatrixService.getDistanceMatrix({
+          origins: latLngs,
+          destinations: latLngs,
+          travelMode: 'DRIVING',
+      }, (distanceMatrix, status) => {
+        const distances = []
+
+        if (status === 'OK') {
+          const matrixOrder = distanceMatrix.rows.length
+
+          for (let i = 0; i < matrixOrder; i++) {
+            for (let j = 0; j < matrixOrder; j++) {
+              const element = distanceMatrix.rows[i].elements[j]
+
               if (element.status === 'OK') {
-                return element.duration.value
+                distances.push({
+                  from: this.props.locations[i].id,
+                  to: this.props.locations[j].id,
+                  distance: element.duration.value,
+                })
               } else {
-                throw new Error('Unreachable destination.')
+                console.log('Something went wrong.')
               }
-            })
-          )
-        )
-      } else {
-        throw new Error('Something went wrong.')
-      }
-      console.log(durationsMatrix)
-    })
+            }
+          }
+        } else {
+          console.log('Something went wrong.')
+        }
+
+        this.props.calculateRoute({
+          locations: this.props.locations.map(location => location.id),
+          distances,
+        })
+      })
+    } else {
+      console.log('Select at least 3 locations.')
+    }
   }
 
   render = () =>
