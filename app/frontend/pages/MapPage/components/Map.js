@@ -100,7 +100,7 @@ export default class Map extends PureComponent {
           suppressMarkers: true,
           polylineOptions: {
             clickable: false,
-            strokeColor: '#0088FF',
+            strokeColor: '#009688',
             strokeWeight: 6,
             strokeOpacity: 0.6
           }
