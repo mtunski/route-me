@@ -4,10 +4,10 @@ class Genetic
       Array.new(size) { { individuals: chromosomes.shuffle, fitness_score: nil } }
     end
 
-    def evolve(population, fitness_goal)
+    def evolve(population, fitness_goal, crossover_probability, mutation_probability)
       population = select(population, fitness_goal)
-      population = crossover(population, fitness_goal)
-      population = mutate(population)
+      population = crossover(population, fitness_goal, probability: crossover_probability)
+      population = mutate(population, probability: mutation_probability)
       population
     end
 

@@ -1,16 +1,20 @@
 class Tsp
-  def initialize(locations, distances)
+  def initialize(locations, distances, population_size, max_generations, crossover_probability, mutation_probability)
     @locations = locations
     @distances = distances || calculate_distances
+    @population_size = population_size
+    @max_generations = max_generations
+    @crossover_probability = crossover_probability
+    @mutation_probability = mutation_probability
     @fitness_goal = :minimize
   end
 
   def solve
-    population = Genetic.initialize_population(@locations.map{ |location| location[:id] }, 200)
+    population = Genetic.initialize_population(@locations.map{ |location| location[:id] }, @population_size)
     evaluate!(population)
 
-    100.times do
-      population = Genetic.evolve(population, @fitness_goal)
+    @max_generations.times do
+      population = Genetic.evolve(population, @fitness_goal, @crossover_probability, @mutation_probability)
       evaluate!(population)
     end
 
