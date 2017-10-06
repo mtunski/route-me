@@ -16,7 +16,7 @@ export default class Location extends PureComponent {
 
   render = () =>
     <Marker
-      position={this.props.coordinates}
+      defaultPosition={this.props.coordinates}
       onClick={this.handleClick}
       key={this.props.id}
     />

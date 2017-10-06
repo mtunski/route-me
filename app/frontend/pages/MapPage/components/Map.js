@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { withProps } from 'recompose'
 import { connect } from 'react-redux'
 import { withGoogleMap, GoogleMap, DirectionsRenderer } from 'react-google-maps'
-import { pick } from 'lodash'
+import { pick, defer } from 'lodash'
 import Guid from 'guid'
 
 import { addLocation } from '../../../redux/actions/locations'
@@ -19,9 +19,9 @@ const mapDispatchToProps = {
 
 @connect(mapStateToProps, mapDispatchToProps)
 @withProps({
-  loadingElement: <div style={{ height: `100%` }} />,
-  containerElement: <div style={{ height: `400px` }} />,
-  mapElement: <div style={{ height: `100%` }} />,
+  loadingElement: <div style={{ width: '100%', height: '100%' }} />,
+  containerElement: <div style={{ width: '100%', height: '100%' }} />,
+  mapElement: <div style={{ width: '100%', height: '100%' }} />,
 })
 @withGoogleMap
 export default class Map extends PureComponent {
@@ -39,9 +39,12 @@ export default class Map extends PureComponent {
 
   componentDidMount() {
     this.directionsService = new google.maps.DirectionsService()
+    this.fixCenter()
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({ directions: null })
+
     if (this.props.route !== nextProps.route) {
       let [start, ...waypoints] = nextProps.route
       start = new google.maps.LatLng(this.props.locations[start].lat, this.props.locations[start].lng)
@@ -57,6 +60,7 @@ export default class Map extends PureComponent {
       }, (directions, status) => {
         if (status === 'OK') {
           this.setState({ directions })
+          defer(this.fixCenter)
         } else {
           console.log('Something went wrong.')
         }
@@ -64,16 +68,20 @@ export default class Map extends PureComponent {
     }
   }
 
+  fixCenter = () =>
+    this.map.panBy(-150, 0)
+
   render = () =>
     <GoogleMap
-      defaultZoom={8}
-      defaultCenter={{ lat: -34.397, lng: 150.644 }}
+      defaultZoom={6}
+      defaultCenter={{ lat: 51.1079, lng: 17.0385 }}
       defaultClickableIcons={false}
       defaultOptions={{
         mapTypeControl:false,
         streetViewControl:false,
       }}
       onClick={this.handleClick}
+      ref={(map) => map && (this.map = map)}
     >
       {Object.values(this.props.locations).map(location =>
         <Location
@@ -82,6 +90,17 @@ export default class Map extends PureComponent {
           key={location.id}
         />
       )}
-      {this.state.directions && <DirectionsRenderer directions={this.state.directions} />}
+      {this.state.directions && <DirectionsRenderer
+        directions={this.state.directions}
+        defaultOptions={{
+          suppressMarkers: true,
+          polylineOptions: {
+            clickable: false,
+            strokeColor: '#0088FF',
+            strokeWeight: 6,
+            strokeOpacity: 0.6
+          }
+        }}
+      />}
     </GoogleMap>
 }
