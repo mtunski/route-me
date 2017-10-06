@@ -3,8 +3,8 @@
   <head>
     <title>RouteMe</title>
 
-    <% stylesheet_link_tag "https://fonts.googleapis.com/css?family=Roboto:300,400,500" %>
-    <% stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Pacifico" %>
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
 
     <%= javascript_pack_tag 'application', defer: true %>
     <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing&key=#{ENV["GOOGLE_API_KEY"]}", defer: true %>

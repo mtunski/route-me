@@ -69,7 +69,7 @@ export default class Map extends PureComponent {
   }
 
   fixCenter = () =>
-    this.map.panBy(-150, 0)
+    this.map.panBy(-150, -30)
 
   render = () =>
     <GoogleMap
@@ -77,8 +77,12 @@ export default class Map extends PureComponent {
       defaultCenter={{ lat: 51.1079, lng: 17.0385 }}
       defaultClickableIcons={false}
       defaultOptions={{
-        mapTypeControl:false,
-        streetViewControl:false,
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
       }}
       onClick={this.handleClick}
       ref={(map) => map && (this.map = map)}

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Typography, Button } from 'material-ui'
+import { Typography, Button, TextField } from 'material-ui'
 
 import { calculateRoute } from '../../../redux/actions/route'
 
@@ -66,7 +66,44 @@ export default class Menu extends PureComponent {
 
   render = () =>
     <div className="menu">
-      <Typography type="title">Menu</Typography>
-      <Button raised color="primary" onClick={this.handleCalculateClick}>Calculate</Button>
+      <Typography type="title">Algorithm settings</Typography>
+      <TextField
+        label="Population size"
+        helperText="Keep below 500"
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Max generations"
+        helperText="Keep below 500"
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Mutation"
+        helperText="Keep below 20"
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Crossover"
+        helperText="Keep below 20"
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Crossover"
+        helperText="Keep below 20"
+        fullWidth
+        margin="normal"
+      />
+      <Button
+        raised
+        color="primary"
+        className="submit"
+        onClick={this.handleCalculateClick}
+      >
+        Calculate
+      </Button>
     </div>
 }
