@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Typography, Button } from 'material-ui'
 
 import { calculateRoute } from '../../../redux/actions/route'
+
+import './Menu.css'
 
 const mapStateToProps = (state) => ({
   locations: Object.values(state.locations),
@@ -62,7 +65,8 @@ export default class Menu extends PureComponent {
   }
 
   render = () =>
-    <div>
-      <button onClick={this.handleCalculateClick}>Calculate</button>
+    <div className="menu">
+      <Typography type="title">Menu</Typography>
+      <Button raised color="primary" onClick={this.handleCalculateClick}>Calculate</Button>
     </div>
 }
