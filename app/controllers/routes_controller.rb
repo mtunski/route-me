@@ -5,7 +5,7 @@ class RoutesController < ApiController
     params.permit!
 
     locations = params[:locations]
-    distances = params[:distances].map(&:to_h)
+    distances = !params[:distances].blank? && params[:distances].map(&:to_h)
 
     respond_with route: Tsp.new(locations, distances).solve
   end

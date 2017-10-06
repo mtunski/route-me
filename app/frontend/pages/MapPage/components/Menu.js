@@ -52,7 +52,7 @@ export default class Menu extends PureComponent {
         }
 
         this.props.calculateRoute({
-          locations: this.props.locations.map(location => location.id),
+          locations: this.props.locations,
           distances,
         })
       })
