@@ -27,27 +27,26 @@ export default class Notification extends PureComponent {
     this.props.hideNotification(this.props.id)
 
   render = () =>
-  console.log('render notif') ||
-  <Snackbar
-    anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
-    }}
-    open={this.state.open}
-    autoHideDuration={AUTO_HIDE_DURATION}
-    message={<span id="message-id">{this.props.message}</span>}
-    onRequestClose={this.handleRequestClose}
-    onExited={this.hide}
-    className="notification"
-    transition={Fade}
-    action={
-      <IconButton
-        key="close"
-        color="inherit"
-        onClick={this.handleRequestClose}
-      >
-        <CloseIcon />
-      </IconButton>
-    }
-  />
+    <Snackbar
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      open={this.state.open}
+      autoHideDuration={AUTO_HIDE_DURATION}
+      message={<span id="message-id">{this.props.message}</span>}
+      onRequestClose={this.handleRequestClose}
+      onExited={this.hide}
+      className="notification"
+      transition={Fade}
+      action={
+        <IconButton
+          key="close"
+          color="inherit"
+          onClick={this.handleRequestClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      }
+    />
 }
