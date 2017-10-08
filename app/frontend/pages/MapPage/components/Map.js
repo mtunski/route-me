@@ -8,6 +8,7 @@ import Guid from 'guid'
 import { addLocation } from '../../../redux/actions/locations'
 import { showNotification } from "../../../lib/notifications/actions"
 import Location from './Location'
+import MapControls from './MapControls'
 
 const mapStateToProps = (state) => ({
   locations: state.locations,
@@ -37,6 +38,7 @@ export default class Map extends PureComponent {
 
   state = {
     directions: null,
+    zoom: 6,
   }
 
   componentDidMount() {
@@ -73,40 +75,56 @@ export default class Map extends PureComponent {
   fixCenter = () =>
     this.map.panBy(-150, -30)
 
+  zoomIn = () =>
+    this.setState({ zoom: this.state.zoom + 1 })
+
+  zoomOut = () =>
+    this.setState({ zoom: this.state.zoom - 1 })
+
+  handleZoomchanged = (ev) =>
+    this.setState({ zoom: this.map.getZoom() })
+
   render = () =>
-    <GoogleMap
-      defaultZoom={6}
-      defaultCenter={{ lat: 51.1079, lng: 17.0385 }}
-      defaultClickableIcons={false}
-      defaultOptions={{
-        zoomControl: false,
-        mapTypeControl: false,
-        scaleControl: false,
-        streetViewControl: false,
-        rotateControl: false,
-        fullscreenControl: false,
-      }}
-      onClick={this.handleClick}
-      ref={(map) => map && (this.map = map)}
-    >
-      {Object.values(this.props.locations).map(location =>
-        <Location
-          id={location.id}
-          coordinates={pick(location, 'lat', 'lng')}
-          key={location.id}
-        />
-      )}
-      {this.state.directions && <DirectionsRenderer
-        directions={this.state.directions}
+    <div>
+      <GoogleMap
+        zoom={this.state.zoom}
+        defaultCenter={{ lat: 51.1079, lng: 17.0385 }}
+        defaultClickableIcons={false}
         defaultOptions={{
-          suppressMarkers: true,
-          polylineOptions: {
-            clickable: false,
-            strokeColor: '#009688',
-            strokeWeight: 6,
-            strokeOpacity: 0.6
-          }
+          zoomControl: false,
+          mapTypeControl: false,
+          scaleControl: false,
+          streetViewControl: false,
+          rotateControl: false,
+          fullscreenControl: false,
         }}
-      />}
-    </GoogleMap>
+        onClick={this.handleClick}
+        onZoomChanged={this.handleZoomchanged}
+        ref={(map) => map && (this.map = map)}
+      >
+        {Object.values(this.props.locations).map(location =>
+          <Location
+            id={location.id}
+            coordinates={pick(location, 'lat', 'lng')}
+            key={location.id}
+          />
+        )}
+        {this.state.directions && <DirectionsRenderer
+          directions={this.state.directions}
+          defaultOptions={{
+            suppressMarkers: true,
+            polylineOptions: {
+              clickable: false,
+              strokeColor: '#009688',
+              strokeWeight: 6,
+              strokeOpacity: 0.6
+            }
+          }}
+        />}
+      </GoogleMap>
+      <MapControls
+        onZoomIn={this.zoomIn}
+        onZoomOut={this.zoomOut}
+       />
+    </div>
 }

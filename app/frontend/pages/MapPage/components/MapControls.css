@@ -1,0 +1,13 @@
+.map-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+
+  & > * {
+    display: block !important;
+
+    &:first-child {
+      margin-bottom: 10px;
+    }
+  }
+}
