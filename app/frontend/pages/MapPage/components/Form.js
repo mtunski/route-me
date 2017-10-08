@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { Button, TextField } from 'material-ui'
 
+import { showNotification } from "../../../lib/notifications/actions"
 import { calculateRoute } from '../../../redux/actions/route'
 
 const renderField = ({ input, type, label, helperText, meta: { touched, error } }) => (
@@ -23,6 +24,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   calculateRoute,
+  showNotification,
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -42,6 +44,7 @@ export default class Form extends PureComponent {
 
   handleSubmit = (algorithmConfig) => {
     const latLngs = this.props.locations.map(location => new google.maps.LatLng(location.lat, location.lng))
+    const distances = []
 
     if (this.props.locations.length >= 3) {
       this.DistanceMatrixService.getDistanceMatrix({
@@ -49,7 +52,6 @@ export default class Form extends PureComponent {
           destinations: latLngs,
           travelMode: 'DRIVING',
       }, (distanceMatrix, status) => {
-        const distances = []
 
         if (status === 'OK') {
           const matrixOrder = distanceMatrix.rows.length
@@ -65,23 +67,21 @@ export default class Form extends PureComponent {
                   distance: element.duration.value,
                 })
               } else {
-                console.log('Something went wrong.')
+                return this.props.showNotification("Some locations are unreachable!", "error")
               }
             }
           }
-        } else {
-          console.log('Something went wrong.')
         }
-
-        this.props.calculateRoute({
-          locations: this.props.locations,
-          distances,
-          ...algorithmConfig,
-        })
       })
     } else {
-      console.log('Select at least 3 locations.')
+      return this.props.showNotification("Select at least 3 cities.", "info")
     }
+
+    return this.props.calculateRoute({
+      locations: this.props.locations,
+      distances,
+      ...algorithmConfig,
+    })
   }
 
   render = () =>
@@ -115,6 +115,7 @@ export default class Form extends PureComponent {
         color="primary"
         className="submit"
         type="submit"
+        disabled={this.props.submitting}
       >
         Calculate
       </Button>

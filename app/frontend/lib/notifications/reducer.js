@@ -1,14 +1,14 @@
-import Immutable from 'seamless-immutable'
+import Immutable from "seamless-immutable"
 
-import { ADD_LOCATION, REMOVE_LOCATION } from '../actions/locations'
+import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from "./actions"
 
 const initialState = Immutable.from({})
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_LOCATION:
+    case SHOW_NOTIFICATION:
       return state.set(action.payload.id, action.payload)
-    case REMOVE_LOCATION:
+    case HIDE_NOTIFICATION:
       return state.without(action.payload)
     default:
       return state

@@ -6,6 +6,7 @@ import { pick, defer } from 'lodash'
 import Guid from 'guid'
 
 import { addLocation } from '../../../redux/actions/locations'
+import { showNotification } from "../../../lib/notifications/actions"
 import Location from './Location'
 
 const mapStateToProps = (state) => ({
@@ -15,6 +16,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   addLocation,
+  showNotification,
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -62,7 +64,7 @@ export default class Map extends PureComponent {
           this.setState({ directions })
           defer(this.fixCenter)
         } else {
-          console.log('Something went wrong.')
+          this.props.showNotification("Some locations are unreachable!", "error")
         }
       })
     }
