@@ -3,15 +3,18 @@ import { isUndefined } from "lodash"
 import { call } from "./client"
 import { isApiAction } from "./utils"
 
-export default ({ dispatch }) => next => action => {
+export default ({ getState, dispatch }) => next => action => {
   if (isApiAction(action) && isUndefined(action.status)) {
     next({ ...action, status: "pending" })
 
-    return call(action.path, action.method, action.payload)
-      .then(payload =>
+    const payload = action.payload
+    payload.clientId = getState().client.id
+
+    return call(action.path, action.method, payload)
+      .then(response =>
         dispatch({
           ...action,
-          payload,
+          payload: response,
           status: "success",
         })
       )

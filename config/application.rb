@@ -27,5 +27,7 @@ module RouteMe
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.action_cable.mount_path = '/ws'
   end
 end

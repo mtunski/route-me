@@ -8,6 +8,8 @@
 
     <%= javascript_pack_tag 'application', defer: true %>
     <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing&key=#{ENV["GOOGLE_API_KEY"]}", defer: true %>
+
+    <%= action_cable_meta_tag %>
   </head>
   <body>
     <%= yield %>
