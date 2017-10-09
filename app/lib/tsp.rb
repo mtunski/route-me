@@ -13,9 +13,16 @@ class Tsp
     population = Genetic.initialize_population(@locations.map{ |location| location[:id] }, @population_size)
     evaluate!(population)
 
-    @max_generations.times do
+    best = []
+    @max_generations.times do |i|
       population = Genetic.evolve(population, @fitness_goal, @crossover_probability, @mutation_probability)
       evaluate!(population)
+
+      best << population.first[:fitness_score]
+      best.sort!
+
+      top = best[0...10]
+      break if top.size == 10 && top.uniq.size == 1
     end
 
     population.first[:individuals]
