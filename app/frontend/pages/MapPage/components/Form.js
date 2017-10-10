@@ -33,7 +33,7 @@ const mapDispatchToProps = {
   initialValues: {
     populationSize: 500,
     maxGenerations: 100,
-    crossoverProbability: 80,
+    recombinationProbability: 80,
     mutationProbability: 10,
   }
 })
@@ -42,46 +42,15 @@ export default class Form extends PureComponent {
     this.DistanceMatrixService = new google.maps.DistanceMatrixService()
   }
 
-  handleSubmit = (algorithmConfig) => {
-    const latLngs = this.props.locations.map(location => new google.maps.LatLng(location.lat, location.lng))
-    const distances = []
-
+  handleSubmit = (algorithmParameters) => {
     if (this.props.locations.length >= 3) {
-      this.DistanceMatrixService.getDistanceMatrix({
-          origins: latLngs,
-          destinations: latLngs,
-          travelMode: 'DRIVING',
-      }, (distanceMatrix, status) => {
-
-        if (status === 'OK') {
-          const matrixOrder = distanceMatrix.rows.length
-
-          for (let i = 0; i < matrixOrder; i++) {
-            for (let j = 0; j < matrixOrder; j++) {
-              const element = distanceMatrix.rows[i].elements[j]
-
-              if (element.status === 'OK') {
-                distances.push({
-                  from: this.props.locations[i].id,
-                  to: this.props.locations[j].id,
-                  distance: element.duration.value,
-                })
-              } else {
-                return this.props.showNotification("Some locations are unreachable!", "error")
-              }
-            }
-          }
-        }
+      return this.props.calculateRoute({
+        locations: this.props.locations,
+        algorithmParameters,
       })
     } else {
       return this.props.showNotification("Select at least 3 cities.", "info")
     }
-
-    return this.props.calculateRoute({
-      locations: this.props.locations,
-      distances,
-      ...algorithmConfig,
-    })
   }
 
   render = () =>
@@ -100,8 +69,8 @@ export default class Form extends PureComponent {
       />
       <Field
         component={renderField}
-        name="crossoverProbability"
-        label="Crossover probability"
+        name="recombinationProbability"
+        label="Recombination (crossover) probability"
         helperText="Optimal =~ 80%"
       />
       <Field
