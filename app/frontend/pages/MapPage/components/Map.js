@@ -29,11 +29,15 @@ const mapDispatchToProps = {
 @withGoogleMap
 export default class Map extends PureComponent {
   handleClick = (ev) => {
-    this.props.addLocation({
-      id: Guid.raw(),
-      lat: ev.latLng.lat(),
-      lng: ev.latLng.lng(),
-    })
+    if (Object.keys(this.props.locations).length === 24) {
+      this.props.showNotification("We only support up to 24 locations for now, sorry!", "error")
+    } else {
+      this.props.addLocation({
+        id: Guid.raw(),
+        lat: ev.latLng.lat(),
+        lng: ev.latLng.lng(),
+      })
+    }
   }
 
   state = {
