@@ -1,2 +1,2 @@
-rails: bundle exec rails s -p 3000
-sidekiq: bundle exec sidekiq
+worker: bundle exec sidekiq
+release: bundle exec rails webpacker:compile
