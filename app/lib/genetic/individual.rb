@@ -11,17 +11,14 @@ module Genetic
       @fitness_score = yield(@chromosomes)
     end
 
-    # override
     def <=>(other)
       @fitness_score <=> other.fitness_score
     end
 
-    # override
     def >(other)
       @fitness_score > other.fitness_score
     end
 
-    # override
     def <(other)
       @fitness_score < other.fitness_score
     end
