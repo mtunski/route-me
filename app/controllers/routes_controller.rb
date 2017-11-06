@@ -4,15 +4,10 @@ class RoutesController < ApiController
   respond_to :json
 
   def create
-    ActionCable.server.broadcast(
-      "realtime_#{client_id}",
-      { message: 'test' }
-    )
-
     params.permit!
 
-    tsp = Genetic::Algorithms::Tsp.new(params[:locations], params[:algorithm_parameters])
-    respond_with route: tsp.solve
-  end
+    SolveTspJob.perform_later(client_id, params[:locations].map(&:to_h), params[:algorithm_parameters].to_h)
 
+    head :accepted
+  end
 end

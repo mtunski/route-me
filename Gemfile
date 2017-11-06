@@ -11,6 +11,8 @@ gem 'puma', '~> 3.7'
 gem 'webpacker'
 gem 'responders'
 gem 'geocoder'
+gem 'sidekiq'
+gem 'redis', '~> 3.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

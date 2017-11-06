@@ -29,5 +29,7 @@ module RouteMe
     config.generators.system_tests = nil
 
     config.action_cable.mount_path = '/ws'
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

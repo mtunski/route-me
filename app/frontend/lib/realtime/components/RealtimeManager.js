@@ -4,9 +4,11 @@ import ActionCable from 'actioncable'
 import Guid from 'guid'
 
 import { setClientId } from '../../../redux/actions/client'
+import { realtimeCreateRoute } from '../actions'
 
 const mapDispachToProps = {
   setClientId,
+  realtimeCreateRoute,
 }
 
 @connect(null, mapDispachToProps)
@@ -17,7 +19,7 @@ export default class Notifications extends PureComponent {
 
     this.props.setClientId(clientId)
     cable.subscriptions.create({ channel: "Channel", client_id: clientId }, {
-      received: (data) => console.log(data)
+      received: (data) => this.props.realtimeCreateRoute(data)
     })
   }
 
