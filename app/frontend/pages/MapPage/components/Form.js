@@ -6,12 +6,13 @@ import { Button, TextField } from 'material-ui'
 import { showNotification } from "../../../lib/notifications/actions"
 import { calculateRoute } from '../../../redux/actions/route'
 
-const renderField = ({ input, type, label, helperText, meta: { touched, error } }) => (
+const renderField = ({ input, type, label, helperText, disabled, meta: { touched, error } }) => (
   <TextField
     {...input}
     type={type}
     label={label}
     helperText={helperText}
+    disabled={disabled}
     fullWidth
     margin="normal"
   />
@@ -19,7 +20,7 @@ const renderField = ({ input, type, label, helperText, meta: { touched, error } 
 
 const mapStateToProps = (state) => ({
   locations: Object.values(state.locations),
-  route: state.route,
+  calculatingRoute: state.route.calculating,
 })
 
 const mapDispatchToProps = {
@@ -60,33 +61,37 @@ export default class Form extends PureComponent {
         name="populationSize"
         label="Population size"
         helperText="Adjust to number of locations"
+        disabled={this.props.calculatingRoute}
       />
       <Field
         component={renderField}
         name="maxGenerations"
         label="Max generations"
         helperText="Adjust to number of locations"
+        disabled={this.props.calculatingRoute}
       />
       <Field
         component={renderField}
         name="recombinationProbability"
         label="Recombination (crossover) probability"
         helperText="Optimal =~ 80%"
+        disabled={this.props.calculatingRoute}
       />
       <Field
         component={renderField}
         name="mutationProbability"
         label="Mutation probability"
         helperText="Optimal =~ 10%"
+        disabled={this.props.calculatingRoute}
       />
       <Button
         raised
         color="primary"
         className="submit"
         type="submit"
-        disabled={this.props.submitting}
+        disabled={this.props.calculatingRoute}
       >
-        Calculate
+        {this.props.calculatingRoute ? 'Calculating…' : 'Calculate'}
       </Button>
     </form>
 }

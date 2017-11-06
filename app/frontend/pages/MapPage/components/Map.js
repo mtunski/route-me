@@ -12,7 +12,7 @@ import MapControls from './MapControls'
 
 const mapStateToProps = (state) => ({
   locations: state.locations,
-  route: state.route,
+  route: state.route.waypoints,
 })
 
 const mapDispatchToProps = {
@@ -54,7 +54,7 @@ export default class Map extends PureComponent {
     this.setState({ directions: null })
 
     if (this.props.route !== nextProps.route) {
-      let [start, ...waypoints] = nextProps.route
+      let [start, ...waypoints] = nextProps.route.asMutable()
       start = new google.maps.LatLng(this.props.locations[start].lat, this.props.locations[start].lng)
       waypoints = waypoints.map(id => ({
         location: new google.maps.LatLng(this.props.locations[id].lat, this.props.locations[id].lng)
