@@ -15,16 +15,17 @@ const mapDispachToProps = {
 export default class Notifications extends PureComponent {
   componentDidMount = () => {
     const cable = ActionCable.createConsumer()
-    const clientId = Guid.raw()
+    let clientId = localStorage.getItem('clientId')
+
+    if (!clientId) {
+      clientId = Guid.raw()
+      localStorage.setItem('clientId', clientId)
+    }
 
     this.props.setClientId(clientId)
     cable.subscriptions.create({ channel: "Channel", client_id: clientId }, {
       received: (data) => this.props.realtimeCreateRoute(data)
     })
-  }
-
-  componentWillUnmount = () => {
-
   }
 
   render = () => null
