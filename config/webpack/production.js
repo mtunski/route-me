@@ -30,6 +30,10 @@ module.exports = webpackMerge(config, {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify("production"),
+      API_HOST: JSON.stringify("https://route-me-production.herokuapp.com"),
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,

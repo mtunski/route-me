@@ -23,6 +23,9 @@ module.exports = webpackMerge(config, {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      API_HOST: JSON.stringify("http://localhost:3000"),
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],

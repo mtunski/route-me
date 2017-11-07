@@ -1,0 +1,4 @@
+:concurrency: <%= ENV["WORKER_CONCURRENCY"] || 2 %>
+:timeout: <%= ENV["WORKER_TIMEOUT"] || 30 %>
+:queues:
+  - default
