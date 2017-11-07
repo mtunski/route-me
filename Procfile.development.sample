@@ -1,2 +1,3 @@
 rails: bundle exec rails server -p 3000
 webpack: yarn run serve
+sidekiq: bundle exec sidekiq

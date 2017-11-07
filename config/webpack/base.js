@@ -4,20 +4,17 @@ const ManifestPlugin = require("assets-webpack-plugin")
 const CleanupPlugin = require("webpack-cleanup-plugin")
 
 const postcssConfig = require("../postcss/config")
-const cssModuleIdentifier = "[local]--[hash:base64:5]"
 
 const rootPath = path.resolve(__dirname, "../..")
 
 module.exports = {
-  cssModuleIdentifier,
-
   cssLoaders: [
     {
       loader: "css-loader",
       query: {
         importLoaders: 1,
         modules: true,
-        localIdentName: cssModuleIdentifier,
+        localIdentName: "[local]--[hash:base64:5]",
         sourceMap: true,
       },
     },

@@ -4,12 +4,12 @@ import PropTypes from "prop-types"
 import Header from "../components/Header"
 
 const MainLayout = (props) => (
-  <div>
-    <Header />
-    <div className="container app-content-container">
+  [
+    <Header key="header" />,
+    <div className="app" key="app">
       {props.children}
     </div>
-  </div>
+  ]
 )
 
 MainLayout.propTypes = {

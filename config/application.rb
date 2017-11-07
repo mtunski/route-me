@@ -21,5 +21,7 @@ module RouteMe
 
     config.paths["app/views"] << "app/rails/views"
     config.paths["app/helpers"] << "app/rails/helpers"
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

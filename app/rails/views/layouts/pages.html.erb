@@ -2,8 +2,12 @@
 
 <title>EasyNote</title>
 <%= csrf_meta_tags %>
+<%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Pacifico" %>
+<%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons" %>
 <%= webpack_css_bundle("main") %>
 <%= webpack_common_js_bundles %>
-<%= webpack_app_js_bundle("main") %>
 
 <%= yield %>
+
+<%= webpack_app_js_bundle("main") %>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing&key=#{ENV["GOOGLE_API_KEY"]}" %>
