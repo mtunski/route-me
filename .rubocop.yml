@@ -1,0 +1,23 @@
+AllCops:
+  TargetRubyVersion: 2.4.1
+  Exclude:
+    - "tmp/**/*"
+    - "db/**/*"
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/EmptyMethod:
+  Enabled: false
+
+Layout/LeadingCommentSpace:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false

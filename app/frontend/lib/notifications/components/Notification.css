@@ -1,9 +1,0 @@
-.notification {
-  margin-top: 70px;
-  margin-left: 150px;
-
-  & > * {
-    color: white !important;
-    background: rgba(0, 0, 0, .8) !important;
-  }
-}

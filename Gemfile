@@ -1,27 +1,29 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
+ruby "2.4.1"
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 5.1.4'
-gem 'pg', '~> 0.18'
-gem 'puma', '~> 3.7'
-gem 'webpacker'
-gem 'responders'
-gem 'geocoder'
-gem 'sidekiq'
-gem 'redis', '~> 3.0'
+gem "pg", "~> 0.21.0"
+gem "puma", "~> 3.10.0"
+gem "rails", "~> 5.1.4"
+
+gem "execjs", "~> 2.7.0"
+gem "mini_racer", "~> 0.1.14"
+gem "react_on_rails", "~> 10.0.1"
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'foreman'
+  gem "pry", "~> 0.10.4"
+  gem "pry-rails", "~> 0.3.6"
+  gem "pry-remote", "~> 0.1.8"
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem "foreman", "~> 0.84.0"
+  gem "listen", "~> 3.1.5"
+  gem "rubocop", "~> 0.49.1", require: false
+  gem "spring", "~> 2.0.2"
+  gem "spring-watcher-listen", "~> 2.0.1"
 end

@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+
+<title>EasyNote</title>
+<%= csrf_meta_tags %>
+<%= webpack_css_bundle("main") %>
+<%= webpack_common_js_bundles %>
+<%= webpack_app_js_bundle("main") %>
+
+<%= yield %>

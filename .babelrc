@@ -1,27 +1,16 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "modules": false,
-        "targets": {
-          "browsers": "> 1%",
-          "uglify": true
-        },
-        "useBuiltIns": true
-      }
-    ],
-    "react"
+    ["env", { "modules": false }],
+    "react",
   ],
   "plugins": [
-    "syntax-dynamic-import",
-    "transform-object-rest-spread",
-    "transform-decorators-legacy",
+    "react-hot-loader/babel",
     [
-      "transform-class-properties",
-      {
-        "spec": true
-      }
-    ]
-  ]
+      "react-css-modules", {
+        "context": "app/frontend",
+        "generateScopedName": "[local]--[hash:base64:5]",
+      },
+    ],
+    "transform-object-rest-spread",
+  ],
 }
